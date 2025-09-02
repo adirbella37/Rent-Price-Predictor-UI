@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>פרטי הנכס</title>
+
+  <!-- ‎Google-Fonts + Font-Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@400;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    /* ───────── בסיס ───────── */
+    body{
+      font-family:"Heebo",sans-serif;
+      background:linear-gradient(135deg,#e8f5fb 0%,#ffffff 70%);
+      padding:40px;
+      direction:rtl;
+      overflow-x:hidden;
+      position:relative;
+    }
+
+    /* ───────── רשת אייקונים ברקע ───────── */
+    .bg-icons{
+      position:fixed;inset:0;
+      display:flex;flex-wrap:wrap;
+      justify-content:space-around;
+      align-content:flex-start;
+      gap:140px;
+      padding:100px 80px;
+      pointer-events:none;
+      z-index:-1;
+    }
+    .bg-icons i{
+      font-size:52px;
+      color:#000;
+      opacity:.06;
+      transition:transform 6s linear;
+    }
+    .bg-icons i:nth-child(3n){transform:rotate(15deg);}
+    .bg-icons i:nth-child(4n){transform:rotate(-15deg);}
+    .bg-icons i:nth-child(5n){transform:rotate(8deg);}
+    .bg-icons i:nth-child(7n){transform:rotate(-8deg);}
+
+    /* ───────── כרטיס הטופס ───────── */
+    .container{
+      max-width:900px;
+      margin:auto;
+      background:#fff;
+      padding:40px;
+      border-radius:15px;
+      box-shadow:0 6px 18px rgba(0,0,0,.08);
+      position:relative;
+      z-index:1;
+    }
+
+    h2{margin:0 0 20px;text-align:center;font-weight:700;}
+
+    /* תוויות מיושרות לימין */
+    label{
+      font-weight:700;
+      display:block;
+      margin-top:20px;
+      text-align:right;
+    }
+
+    input[type="text"],input[type="number"],select{
+      width:100%;
+      padding:12px;
+      margin-top:5px;
+      border:1px solid #ccc;
+      border-radius:8px;
+      font-size:1em;
+      box-sizing:border-box;
+    }
+    .error-field{background:#ffe6e6;border-color:red;}
+
+    /* ───────── check-boxes ───────── */
+    .checkbox-group{
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:10px;
+      margin-top:20px;
+    }
+    .checkbox-group label{
+      font-weight:normal;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      background:#f0f8ff;
+      padding:8px 12px;
+      border-radius:8px;
+      cursor:pointer;
+      transition:background-color .2s;
+    }
+    .checkbox-group label:hover{background:#d8ecff;}
+
+    /* ───────── כפתור ───────── */
+    .btn-wrapper{text-align:center;}            /*  מרכז את הכפתור  */
+
+    button{
+      margin-top:40px;                          /*  רווח עליון בלבד */
+      display:inline-flex;
+      flex-direction:row-reverse;               /* טקסט מימין, אייקון משמאל */
+      align-items:center;
+      gap:8px;
+      background:#28a745;
+      color:#fff;
+      border:none;
+      padding:14px 28px;
+      font-size:1.1em;
+      border-radius:10px;
+      cursor:pointer;
+      transition:background-color .3s,transform .2s;
+      font-weight:700;
+    }
+    button:hover{background:#218838;transform:scale(1.03);}
+
+    /* ───────── תיבת תוצאה ───────── */
+    .prediction-box{
+      margin-top:30px;
+      padding:20px;
+      background:#ecf9ff;
+      border:2px dashed #3498db;
+      border-radius:10px;
+      font-size:1.2em;
+      text-align:center;
+      color:#2c3e50;
+      font-weight:700;
+    }
+    .prediction-box.error{background:#ffe6e6;border-color:red;color:red;}
+
+    .error{color:red;font-size:.9em;margin-top:5px;font-weight:700;}
+  </style>
+</head>
+
+<body>
+
+  <!-- ‎‎אייקונים דקורטיביים ברקע -->
+  <div class="bg-icons">
+    <i class="fas fa-building"></i><i class="fas fa-house-chimney"></i><i class="fas fa-key"></i>
+    <i class="fas fa-chart-line"></i><i class="fas fa-location-dot"></i><i class="fas fa-sack-dollar"></i>
+
+    <i class="fas fa-building"></i><i class="fas fa-house-chimney"></i><i class="fas fa-key"></i>
+    <i class="fas fa-chart-line"></i><i class="fas fa-location-dot"></i><i class="fas fa-sack-dollar"></i>
+
+    <i class="fas fa-building"></i><i class="fas fa-house-chimney"></i><i class="fas fa-key"></i>
+    <i class="fas fa-chart-line"></i><i class="fas fa-location-dot"></i><i class="fas fa-sack-dollar"></i>
+
+    <i class="fas fa-building"></i><i class="fas fa-house-chimney"></i><i class="fas fa-key"></i>
+    <i class="fas fa-chart-line"></i><i class="fas fa-location-dot"></i><i class="fas fa-sack-dollar"></i>
+  </div>
+
+  <!-- ‎טופס הערכת שכר-דירה -->
+  <div class="container">
+    <form action="/predict" method="post">
+
+      <h2><i class="fas fa-home"></i> פרטי הנכס</h2>
+
+      <!-- ‎שדות עיקריים (כמו שהיו) -->
+      <label for="propertyType">סוג הנכס:</label>
+      <select id="propertyType" name="propertyType" class="{% if errors and errors.propertyType %}error-field{% endif %}">
+        {% for type in ['דירה','גג/פנטהאוז','דירת גן','יחידת דיור','דופלקס','סטודיו/לופט','פרטי/קוטג\''] %}
+          <option {% if form.get('propertyType') == type %}selected{% endif %}>{{ type }}</option>
+        {% endfor %}
+      </select>
+      {% if errors and errors.propertyType %}<div class="error">{{ errors.propertyType }}</div>{% endif %}
+
+      <label for="neighborhood">שכונה:</label>
+      <input id="neighborhood" name="neighborhood" type="text" value="{{ form.get('neighborhood','') }}" class="{% if errors and errors.neighborhood %}error-field{% endif %}">
+      {% if errors and errors.neighborhood %}<div class="error">{{ errors.neighborhood }}</div>{% endif %}
+
+      <label for="address">כתובת:</label>
+      <input id="address" name="address" type="text" value="{{ form.get('address','') }}" class="{% if errors and errors.address %}error-field{% endif %}">
+      {% if errors and errors.address %}<div class="error">{{ errors.address }}</div>{% endif %}
+
+      <label for="rooms">מספר חדרים:</label>
+      <select id="rooms" name="rooms" class="{% if errors and errors.rooms %}error-field{% endif %}">
+        {% for val in ['1','1.5','2','2.5','3','3.5','4','4.5','5','5.5','6','7','8','9','10'] %}
+          <option {% if form.get('rooms') == val %}selected{% endif %}>{{ val }}</option>
+        {% endfor %}
+      </select>
+      {% if errors and errors.rooms %}<div class="error">{{ errors.rooms }}</div>{% endif %}
+
+      <label for="floor">קומה:</label>
+      <input id="floor" name="floor" type="number" value="{{ form.get('floor','') }}" class="{% if errors and errors.floor %}error-field{% endif %}">
+      {% if errors and errors.floor %}<div class="error">{{ errors.floor }}</div>{% endif %}
+
+      <label for="totalFloors">מס' קומות:</label>
+      <input id="totalFloors" name="totalFloors" type="number" value="{{ form.get('totalFloors','') }}" class="{% if errors and errors.totalFloors %}error-field{% endif %}">
+      {% if errors and errors.totalFloors %}<div class="error">{{ errors.totalFloors }}</div>{% endif %}
+
+      <label for="area">שטח (מ"ר):</label>
+      <input id="area" name="area" type="number" value="{{ form.get('area','') }}" class="{% if errors and errors.area %}error-field{% endif %}">
+      {% if errors and errors.area %}<div class="error">{{ errors.area }}</div>{% endif %}
+
+      <label for="gardenArea">שטח גינה (מ"ר):</label>
+      <input id="gardenArea" name="gardenArea" type="number" value="{{ form.get('gardenArea','') }}">
+
+      <label for="arnona">ארנונה לחודש (ש"ח):</label>
+      <input id="arnona" name="arnona" type="number" value="{{ form.get('arnona','') }}" class="{% if errors and errors.arnona %}error-field{% endif %}">
+      {% if errors and errors.arnona %}<div class="error">{{ errors.arnona }}</div>{% endif %}
+
+      <label for="vaadBayit">ועד בית לחודש (ש"ח):</label>
+      <input id="vaadBayit" name="vaadBayit" type="number" value="{{ form.get('vaadBayit','') }}" class="{% if errors and errors.vaadBayit %}error-field{% endif %}">
+      {% if errors and errors.vaadBayit %}<div class="error">{{ errors.vaadBayit }}</div>{% endif %}
+
+      <!-- Check-boxes -->
+      <div class="checkbox-group">
+        {% for label in ['חניה','מחסן','מעלית','מזגן','נגישה לנכים','סורגים','ממ\"ד','מרפסת','מרוהטת','משופצת'] %}
+          <label><span>{{ label }}</span><input type="checkbox" name="{{ label }}" {% if form.get(label) %}checked{% endif %}></label>
+        {% endfor %}
+      </div>
+
+      <!-- ‎כפתור הערכה (מרוכז) -->
+      <div class="btn-wrapper">
+        <button type="submit">
+          <i class="fas fa-coins"></i> הערך שכר דירה
+        </button>
+      </div>
+
+      {% if general_error %}
+        <div class="prediction-box error">{{ general_error }}</div>
+      {% elif prediction_text %}
+        <div class="prediction-box">{{ prediction_text }}</div>
+      {% endif %}
+    </form>
+  </div>
+
+  <script>
+    /* ‎גלילה אל תיבת התוצאה לאחר טעינה */
+    window.onload=()=>{const box=document.querySelector('.prediction-box');if(box){box.scrollIntoView({behavior:'smooth'});}};
+  </script>
+</body>
+</html>
