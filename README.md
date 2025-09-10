@@ -44,9 +44,9 @@ Users can enter apartment details (size, rooms, address, etc.) into a web form a
    
    python -m venv
 
-   - On Windows: venv\Scripts\activate
+ - On Windows: venv\Scripts\activate
      
-   - On Mac/Linux: source venv/bin/activate
+ - On Mac/Linux: source venv/bin/activate
 
 4. **Install dependencies:**
    
