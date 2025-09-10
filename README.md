@@ -17,22 +17,18 @@ Users can enter apartment details (size, rooms, address, etc.) into a web form a
 
 ## 📂 Project Structure
 
-├── api.py                           # Flask app (routes + prediction API)
 
-├── assets_data_prep.py              # Data preparation functions
+| File/Folder              | Description                        |
+|--------------------------|------------------------------------|
+| `api.py`                 | Flask app (routes + prediction API)|
+| `assets_data_prep.py`    | Data preparation functions         |
+| `model_training.py`      | Elastic Net model training script  |
+| `neigh_dist_medians.pkl` | Helper file for distances          |
+| `trained_model.pkl`      | Trained Elastic Net model          |
+| `requirements.txt`       | Python dependencies                |
+| `templates/index.html`   | HTML UI form                       |
+| `README.md`              | Project documentation              |
 
-├── model_training.py                # Elastic Net model training script
-
-├── neigh_dist_medians.pkl           # Helper file for distances
-
-├── trained_model.pkl                # Trained Elastic Net model
-
-├── requirements.txt                 # Python dependencies
-
-├── templates/
-│   └── index.html                   # HTML UI form
-
-└── README.md                        # Project documentation
 
 
 ---
