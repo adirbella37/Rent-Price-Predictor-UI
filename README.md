@@ -41,17 +41,18 @@ Users can enter apartment details (size, rooms, address, etc.) into a web form a
    cd Rent-Price-Predictor-UI
    
 2. Create and activate a virtual environment:
+   
    python -m venv venv
-source venv/bin/activate   # On Linux/Mac
-venv\Scripts\activate      # On Windows
+   
+   source venv/bin/activate   # On Linux/Mac  | venv\Scripts\activate      # On Windows
 
-3. Install dependencies:
+4. Install dependencies:
    pip install -r requirements.txt
 
-4. Run the Flask app:
+5. Run the Flask app:
    python api.py
 
-5. Open the app in your browser:
+6. Open the app in your browser:
    http://127.0.0.1:5000
 
 ## 📸 Demo
