@@ -39,6 +39,7 @@ Users can enter apartment details (size, rooms, address, etc.) into a web form a
    ```bash
    git clone https://github.com/adirbella37/Rent-Price-Predictor-UI.git
    cd Rent-Price-Predictor-UI
+    ```
    
 2. **Create and activate a virtual environment:**
    
