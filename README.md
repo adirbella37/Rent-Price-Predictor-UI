@@ -42,17 +42,18 @@ Users can enter apartment details (size, rooms, address, etc.) into a web form a
    
 2. Create and activate a virtual environment:
    
-   python -m venv venv
-   
-   source venv/bin/activate   # On Linux/Mac  | venv\Scripts\activate      # On Windows
+   python -m venv 
 
-4. Install dependencies:
+3. Install dependencies:
+   
    pip install -r requirements.txt
 
-5. Run the Flask app:
+4. Run the Flask app:
+   
    python api.py
 
-6. Open the app in your browser:
+5. Open the app in your browser:
+   
    http://127.0.0.1:5000
 
 ## 📸 Demo
