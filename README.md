@@ -35,24 +35,28 @@ Users can enter apartment details (size, rooms, address, etc.) into a web form a
 
 ## 🛠 Installation & Setup
 
-1. Clone this repository:
+1. **Clone this repository:**
    ```bash
    git clone https://github.com/adirbella37/Rent-Price-Predictor-UI.git
    cd Rent-Price-Predictor-UI
    
-2. Create and activate a virtual environment:
+2. **Create and activate a virtual environment:**
    
-   python -m venv 
+   python -m venv
 
-3. Install dependencies:
+   - On Windows: venv\Scripts\activate
+     
+   - On Mac/Linux: source venv/bin/activate
+
+4. **Install dependencies:**
    
    pip install -r requirements.txt
 
-4. Run the Flask app:
+5. **Run the Flask app:**
    
    python api.py
 
-5. Open the app in your browser:
+6. **Open the app in your browser:**
    
    http://127.0.0.1:5000
 
